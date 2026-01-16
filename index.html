@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>10 Years – One Love</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<style>
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* ================= INTRO GIFT ================= */
+#introOverlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg,#f5e6da,#fff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+.gift-container {
+    position: relative;
+    cursor: pointer;
+    animation: float 2.5s ease-in-out infinite;
+}
+
+.gift-box {
+    font-size: 90px;
+}
+
+#introOverlay.open .gift-container {
+    transform: scale(1.4);
+    transition: 1s;
+}
+
+#introOverlay.open .gift-lid {
+    transform: rotate(-25deg) translateY(-40px);
+}
+
+/* LETTER */
+.gift-letter {
+    display: none;
+    max-width: 420px;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    animation: unfold 1.2s ease forwards;
+}
+
+#introOverlay.show-letter .gift-letter { display: block; }
+#introOverlay.show-letter .gift-container { display: none; }
+
+.gift-letter button {
+    margin-top: 30px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(135deg,#d8a48f,#c89b7b);
+    color: white;
+    cursor: pointer;
+}
+
+/* ================= MAIN SITE ================= */
+
+/* HERO */
+.hero {
+    height: 100vh;
+    background: url("img/header.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hero-text {
+    background: rgba(255,255,255,0.8);
+    padding: 40px;
+    text-align: center;
+    border-radius: 14px;
+}
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+}
+
+/* BUTTON */
+.next-btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg,#d8a48f,#c89b7b);
+    color: white;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: .3s;
+}
+.next-btn:hover { transform: translateY(-3px); }
+
+/* SECTIONS */
+section {
+    padding: 80px 20px;
+    text-align: center;
+    min-height: 100vh;
+}
+h2 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 30px;
+}
+
+/* TIMELINE */
+.timeline { background: #f9f5f2; }
+.event { max-width: 500px; margin: 20px auto; }
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 15px;
+}
+.grid img {
+    width: 100%;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* COUNTER */
+.counter {
+    background: #fff5f7;
+    font-size: 28px;
+    font-family: 'Playfair Display', serif;
+}
+
+/* LETTER SECTION */
+.letter {
+    background: #f9f5f2;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+}
+.letter p {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1.5s;
+}
+.letter.show p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* FOOTER */
+footer {
+    padding: 20px;
+    background: #333;
+    color: white;
+}
+
+/* MUSIC */
+.music-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #c89b7b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+}
+.modal img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+/* HEART */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp 6s linear forwards;
+    pointer-events: none;
+}
+
+/* ANIMATIONS */
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+@keyframes unfold {
+    from { opacity: 0; transform: scaleY(0.3); }
+    to { opacity: 1; transform: scaleY(1); }
+}
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= INTRO OVERLAY ================= -->
+<div id="introOverlay">
+  <div class="gift-container" onclick="openGift()">
+    <div class="gift-lid">Mở quà đi nè</div>
+    <div class="gift-box">🎁</div>
+  </div>
+
+  <div class="gift-letter">
+    <h2>Gửi người anh yêu</h2>
+    <p>
+      10 năm qua có những ngày nắng đẹp,<br>
+      có cả những lúc mưa rơi…<br><br>
+      Nhưng điều chưa bao giờ thay đổi,<br>
+      là anh luôn chọn em.<br><br>
+      <strong>Yêu em – hôm nay và mãi mãi ❤️</strong>
+    </p>
+    <button onclick="closeIntro()">Cùng nhìn lại một chút nhé</button>
+  </div>
+</div>
+
+<!-- ================= MUSIC ================= -->
+<audio id="bg-music" loop>
+  <source src="music/love.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-text" data-aos="zoom-in">
+    <h1>10 Years – One Love</h1>
+    <p>2016 – 2026</p>
+    <button class="next-btn">Bắt đầu ↓</button>
+  </div>
+</section>
+
+<section class="timeline" data-aos="fade-up">
+  <h2>Hành trình yêu thương</h2>
+  <div class="event">24 - 01 - 2016 – Ngày về chung một nhà 💍</div>
+  <div class="grid">
+    <img src="img/a1.jpg" onclick="showImage(this.src)">
+    <img src="img/a2.jpg" onclick="showImage(this.src)">
+    <img src="img/a3.jpg" onclick="showImage(this.src)">
+  </div>
+  <button class="next-btn">Tiếp tục ↓</button>
+</section>
+
+<section class="counter">
+  <h2>Chúng ta đã bên nhau</h2>
+  <p><span id="days"></span> ngày ❤️</p>
+  Em còn nhớ chúng mình sẽ cũng nhau xây thành Rome của riêng mình không?
+  <button class="next-btn">Tiếp tục ↓</button>
+</section>
+
+<section class="gallery">
+  <h2>Khoảnh khắc yêu thương</h2>
+  <div class="grid">
+    <img src="img/1.jpg" onclick="showImage(this.src)">
+    <img src="img/2.jpg" onclick="showImage(this.src)">
+    <img src="img/3.jpg" onclick="showImage(this.src)">
+  </div>
+  <button class="next-btn">Điều cuối cùng ↓</button>
+</section>
+
+<section class="letter" id="secret">
+  <h2>Gửi người bạn đời</h2>
+  <p>
+    10 năm qua không phải lúc nào cũng hoàn hảo,<br>
+    nhưng anh biết mình đã chọn đúng người.<br><br>
+    <strong>Yêu em – hôm nay và mãi mãi ❤️</strong>
+  </p>
+</section>
+
+<footer>
+  <p>To be continued… ♡</p>
+</footer>
+
+<div class="modal" id="imageModal" onclick="this.style.display='none'">
+  <img id="modalImg">
+</div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+AOS.init({ duration: 1200, once: true });
+
+// INTRO
+document.body.style.overflow = "hidden";
+function openGift() {
+    document.getElementById("introOverlay").classList.add("open");
+    setTimeout(()=> {
+        document.getElementById("introOverlay").classList.add("show-letter");
+    },1000);
+}
+function closeIntro() {
+    const o=document.getElementById("introOverlay");
+    o.style.opacity="0";
+    setTimeout(()=> {
+        o.remove();
+        document.body.style.overflow="";
+    },1000);
+}
+
+// MUSIC
+const music=document.getElementById("bg-music");
+function toggleMusic(){ music.paused?music.play():music.pause(); }
+
+// DAYS
+const startDate=new Date("2016-01-24");
+document.getElementById("days").innerText=
+Math.floor((new Date()-startDate)/86400000);
+
+// NEXT SECTION
+const sections=[...document.querySelectorAll("section")];
+let currentSection=0,isScrolling=false;
+
+document.querySelectorAll(".next-btn").forEach((btn,i)=>{
+ btn.onclick=()=>{currentSection=i+1;sections[currentSection]?.scrollIntoView({behavior:"smooth"});}
+});
+
+// MODAL
+function showImage(src){
+ document.getElementById("modalImg").src=src;
+ document.getElementById("imageModal").style.display="flex";
+}
+
+// HEART
+function createHeart(){
+ const h=document.createElement("div");
+ h.className="heart";
+ h.innerText="❤️";
+ h.style.left=Math.random()*100+"vw";
+ h.style.fontSize=14+Math.random()*20+"px";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
+}
+setInterval(createHeart,900);
+
+// SECRET
+window.addEventListener("scroll",()=>{
+ const s=document.getElementById("secret");
+ if(s.getBoundingClientRect().top<window.innerHeight/1.2) s.classList.add("show");
+});
+</script>
+
+</body>
+</html>
